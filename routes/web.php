@@ -55,6 +55,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('gallery/{gallery}', [App\Http\Controllers\Admin\GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('gallery/{gallery}', [App\Http\Controllers\Admin\GalleryController::class, 'destroy'])->name('gallery.destroy');
     Route::post('gallery/order', [App\Http\Controllers\Admin\GalleryController::class, 'updateOrder'])->name('gallery.updateOrder');
+
+    // Announcements Management
+    Route::get('announcements', [App\Http\Controllers\Admin\AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::get('announcements/create', [App\Http\Controllers\Admin\AnnouncementController::class, 'create'])->name('announcements.create');
+    Route::post('announcements', [App\Http\Controllers\Admin\AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::get('announcements/{announcement}/edit', [App\Http\Controllers\Admin\AnnouncementController::class, 'edit'])->name('announcements.edit');
+    Route::put('announcements/{announcement}', [App\Http\Controllers\Admin\AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::delete('announcements/{announcement}', [App\Http\Controllers\Admin\AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+    Route::post('announcements/order', [App\Http\Controllers\Admin\AnnouncementController::class, 'updateOrder'])->name('announcements.updateOrder');
 });
 
 // Laravel default auth routes
