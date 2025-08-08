@@ -1,4 +1,6 @@
 /* Özelleştirilmiş renkler ve stiller */
+
+
 :root {
     --primary: #f9bc03;
     --secondary: #303131;
@@ -24,10 +26,20 @@ body {
     color: var(--secondary);
 }
 
+.border-primary {
+    border-color: var(--primary);
+}
+
+/* Gradient efektleri */
 .gradient-primary {
     background: linear-gradient(135deg, #f9bc03 0%, #e0a800 100%);
 }
 
+.gradient-secondary {
+    background: linear-gradient(135deg, #303131 0%, #1e1e1e 100%);
+}
+
+/* Sticky header */
 .sticky-header {
     position: sticky;
     top: 0;
@@ -65,100 +77,10 @@ body {
     display: block;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #f9bc03 0%, #e0a800 100%);
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(249, 188, 3, 0.3);
-}
-
-.mobile-menu {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .mobile-menu {
-        display: block;
-    }
-    
-    .desktop-menu {
-        display: none;
-    }
-}
-/* Mobil menü düzeltmeleri */
-.mobile-menu-button {
-    display: block;
-}
-
-@media (min-width: 768px) {
-    .mobile-menu-button {
-        display: none;
-    }
-}
-
-/* Tablet modunda hamburger menü göster */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .mobile-menu-button {
-        display: block;
-    }
-    
-    .desktop-menu {
-        display: none !important;
-    }
-}
-
-/* Dropdown menü düzeltmeleri */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 0.5rem;
-    overflow: hidden;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* FAQ akordeon düzeltmeleri */
-.faq-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.faq-item.active .faq-content {
-    max-height: 500px;
-}
-/* Hero iyileştirmeleri */
-.hero-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-.hero-text {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
 /* Galeri hover efekti */
 .gallery-item {
     overflow: hidden;
     position: relative;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover {
-    transform: translateY(-5px);
 }
 
 .gallery-item img {
@@ -167,39 +89,6 @@ body {
 
 .gallery-item:hover img {
     transform: scale(1.05);
-}
-
-/* Lightbox stilleri */
-.lightbox {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.lightbox.active {
-    display: flex;
-}
-
-.lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
 }
 
 /* Slider stilleri */
@@ -214,20 +103,6 @@ body {
 
 .slider-item {
     min-width: 100%;
-    flex-shrink: 0;
-}
-
-/* Slider butonları */
-.slider button {
-    z-index: 10;
-}
-
-.slider button:hover {
-    background-color: var(--primary);
-}
-
-.slider button:hover i {
-    color: white;
 }
 
 /* FAQ akordeon */
@@ -239,4 +114,134 @@ body {
 
 .faq-item.active .faq-content {
     max-height: 500px;
+}
+.logo {
+  width: 150px;        /* Masaüstü için genişlik */
+  max-width: 100%;     /* Konteyneri aşmasın */
+  height: auto;        /* Oran korunsun */
+}
+
+/* Küçük ekranlar için boyut küçültme */
+@media (max-width: 768px) {
+  .logo {
+    width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 90px;
+  }
+}
+
+/* Buton hover efektleri */
+.btn-primary {
+    background: linear-gradient(135deg, #f9bc03 0%, #e0a800 100%);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(249, 188, 3, 0.3);
+}
+
+/* Mobil menü */
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu {
+        display: block;
+    }
+    
+    .desktop-menu {
+        display: none;
+    }
+}
+
+/* Lightbox stilleri */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox.active {
+    display: flex !important;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border: 3px solid white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.lightbox-close:hover {
+    color: var(--primary);
+}
+
+/* Galeri öğeleri için pointer cursor */
+.gallery-item {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Hero Logo Stilleri */
+.hero-logo {
+    width: 588px;
+    height: 250px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    max-width: 90%; /* Ekranın %90'ını geçmesin */
+}
+
+@media (max-width: 768px) {
+    .hero-logo {
+        width: 100%;
+        max-width: 450px;
+        height: auto;
+        aspect-ratio: 588/250; /* Oranı koru */
+    }
+}
+
+/* Mobil için boyutlandırma */
+@media (max-width: 768px) {
+    .hero-logo {
+        width: 350px;
+        height: 150px;
+    }
+}
+
+/* Küçük mobil için boyutlandırma */
+@media (max-width: 480px) {
+    .hero-logo {
+        width: 290px;
+        height: 125px;
+    }
 }

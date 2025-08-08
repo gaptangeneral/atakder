@@ -15,17 +15,17 @@ class SiteSetting extends Model
     }
     
     public static function set($key, $value)
-    {
-        $setting = static::where('key', $key)->first();
-        
-        if ($setting) {
-            $setting->value = $value;
-            $setting->save();
-        } else {
-            static::create([
-                'key' => $key,
-                'value' => $value
-            ]);
-        }
+{
+    $setting = static::where('key', $key)->first();
+    
+    if ($setting) {
+        $setting->value = $value;
+        $setting->save();
+    } else {
+        static::create([
+            'key' => $key,
+            'value' => $value
+        ]);
     }
+}
 }
