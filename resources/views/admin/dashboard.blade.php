@@ -30,29 +30,40 @@
                     <i class="fas fa-tachometer-alt mr-3"></i>
                     Dashboard
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-users mr-3"></i>
-                    Kullanıcılar
-                </a>
-                <a href="{{ route('admin.settings.index') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-image mr-3"></i>
-                    Site Ayarları
-                </a>
-                <a href="{{ route('admin.gallery.index') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-image mr-3"></i>
-                    Galeri
-                </a>
                 
+                <!-- Site Yönetimi Bölümü -->
+                <div class="mt-4">
+                    <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Site Yönetimi</h3>
+                    <a href="{{ route('admin.settings.index') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-cog mr-3"></i>
+                        Site Ayarları
+                    </a>
+                </div>
                 
-                
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-newspaper mr-3"></i>
-                    Haberler
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
-                    <i class="fas fa-cog mr-3"></i>
-                    Ayarlar
-                </a>
+                <!-- İçerik Yönetimi Bölümü -->
+                <div class="mt-4">
+                    <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">İçerik Yönetimi</h3>
+                    <a href="{{ route('admin.announcements.index') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-bullhorn mr-3"></i>
+                        Duyurular
+                    </a>
+                    <a href="{{ route('admin.gallery.index') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-images mr-3"></i>
+                        Galeri
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-project-diagram mr-3"></i>
+                        Projeler
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-question-circle mr-3"></i>
+                        SSS
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-newspaper mr-3"></i>
+                        Haberler
+                    </a>
+                </div>
             </nav>
         </div>
         
@@ -101,11 +112,11 @@
                     <div class="bg-white rounded-lg shadow p-6">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-blue-100 text-blue-500">
-                                <i class="fas fa-users text-2xl"></i>
+                                <i class="fas fa-bullhorn text-2xl"></i>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Toplam Kullanıcı</p>
-                                <p class="text-2xl font-bold text-gray-900">1,254</p>
+                                <p class="text-sm font-medium text-gray-600">Aktif Duyurular</p>
+                                <p class="text-2xl font-bold text-gray-900">{{ \App\Models\Announcement::where('is_active', true)->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -117,7 +128,7 @@
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-600">Galeri Resimleri</p>
-                                <p class="text-2xl font-bold text-gray-900">86</p>
+                                <p class="text-2xl font-bold text-gray-900">{{ \App\Models\Gallery::where('is_active', true)->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -125,11 +136,11 @@
                     <div class="bg-white rounded-lg shadow p-6">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
-                                <i class="fas fa-newspaper text-2xl"></i>
+                                <i class="fas fa-question-circle text-2xl"></i>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Haberler</p>
-                                <p class="text-2xl font-bold text-gray-900">24</p>
+                                <p class="text-sm font-medium text-gray-600">SSS</p>
+                                <p class="text-2xl font-bold text-gray-900">{{ \App\Models\Faq::where('is_active', true)->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -137,11 +148,11 @@
                     <div class="bg-white rounded-lg shadow p-6">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-red-100 text-red-500">
-                                <i class="fas fa-envelope text-2xl"></i>
+                                <i class="fas fa-project-diagram text-2xl"></i>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Mesajlar</p>
-                                <p class="text-2xl font-bold text-gray-900">18</p>
+                                <p class="text-sm font-medium text-gray-600">Projeler</p>
+                                <p class="text-2xl font-bold text-gray-900">{{ \App\Models\Project::where('is_active', true)->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -151,18 +162,26 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Son Aktiviteler</h3>
                     <div class="space-y-4">
+                        @php
+                            $recentAnnouncements = \App\Models\Announcement::latest()->take(3)->get();
+                            $recentGalleries = \App\Models\Gallery::latest()->take(2)->get();
+                        @endphp
+                        
+                        @foreach($recentAnnouncements as $announcement)
                         <div class="flex items-start">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                    <i class="fas fa-user text-blue-500 text-sm"></i>
+                                    <i class="fas fa-bullhorn text-blue-500 text-sm"></i>
                                 </div>
                             </div>
                             <div class="ml-3">
-                                <p class="text-sm text-gray-800">Yeni kullanıcı kaydoldu: <span class="font-medium">Ahmet Yılmaz</span></p>
-                                <p class="text-xs text-gray-500">2 saat önce</p>
+                                <p class="text-sm text-gray-800">Yeni duyuru eklendi: <span class="font-medium">{{ Str::limit($announcement->title, 50) }}</span></p>
+                                <p class="text-xs text-gray-500">{{ $announcement->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
+                        @endforeach
                         
+                        @foreach($recentGalleries as $gallery)
                         <div class="flex items-start">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
@@ -170,22 +189,11 @@
                                 </div>
                             </div>
                             <div class="ml-3">
-                                <p class="text-sm text-gray-800">Yeni galeri resmi eklendi</p>
-                                <p class="text-xs text-gray-500">5 saat önce</p>
+                                <p class="text-sm text-gray-800">Yeni galeri resmi eklendi: <span class="font-medium">{{ $gallery->title }}</span></p>
+                                <p class="text-xs text-gray-500">{{ $gallery->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
-                        
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
-                                    <i class="fas fa-newspaper text-yellow-500 text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-gray-800">Haber güncellendi: <span class="font-medium">Deprem Eğitimleri</span></p>
-                                <p class="text-xs text-gray-500">1 gün önce</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </main>
