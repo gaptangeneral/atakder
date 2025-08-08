@@ -3,19 +3,44 @@
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Logo ve Hakkında -->
-            <div>
+             <div>
+                @php
+                    $siteLogo = \App\Models\SiteSetting::get('site_logo');
+                    $siteTitle = \App\Models\SiteSetting::get('site_title', 'Atakder');
+                    $siteDescription = \App\Models\SiteSetting::get('site_description', 'Acil Yardım ve Arama Kurtarma Derneği olarak afetzedelere umut olmaya devam ediyoruz.');
+                @endphp
                 <div class="flex items-center mb-4">
                     <div class="w-12 h-12 flex items-center justify-center rounded-full gradient-primary">
-                        <span class="text-white font-bold text-xl">A</span>
+                        @if($siteLogo)
+                            <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="w-8 h-8 rounded-full object-cover">
+                        @else
+                            <span class="text-white font-bold text-xl">A</span>
+                        @endif
                     </div>
-                    <span class="ml-3 text-2xl font-bold">Atakder</span>
+                    <span class="ml-3 text-2xl font-bold">{{ $siteTitle }}</span>
                 </div>
-                <p class="text-gray-300">Acil Yardım ve Arama Kurtarma Derneği olarak afetzedelere umut olmaya devam ediyoruz.</p>
+                <p class="text-gray-300">{{ $siteDescription }}</p>
+                
+                @php
+                    $socialFacebook = \App\Models\SiteSetting::get('social_facebook');
+                    $socialTwitter = \App\Models\SiteSetting::get('social_twitter');
+                    $socialInstagram = \App\Models\SiteSetting::get('social_instagram');
+                    $socialYoutube = \App\Models\SiteSetting::get('social_youtube');
+                @endphp
+                
                 <div class="flex space-x-4 mt-4">
-                    <a href="#" class="text-gray-300 hover:text-primary transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-primary transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-primary transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-primary transition"><i class="fab fa-youtube"></i></a>
+                    @if($socialFacebook)
+                        <a href="{{ $socialFacebook }}" class="text-gray-300 hover:text-primary transition"><i class="fab fa-facebook-f"></i></a>
+                    @endif
+                    @if($socialTwitter)
+                        <a href="{{ $socialTwitter }}" class="text-gray-300 hover:text-primary transition"><i class="fab fa-twitter"></i></a>
+                    @endif
+                    @if($socialInstagram)
+                        <a href="{{ $socialInstagram }}" class="text-gray-300 hover:text-primary transition"><i class="fab fa-instagram"></i></a>
+                    @endif
+                    @if($socialYoutube)
+                        <a href="{{ $socialYoutube }}" class="text-gray-300 hover:text-primary transition"><i class="fab fa-youtube"></i></a>
+                    @endif
                 </div>
             </div>
             
@@ -35,10 +60,24 @@
             <!-- İletişim Bilgileri -->
             <div>
                 <h3 class="text-lg font-bold mb-4">İletişim Bilgileri</h3>
+                @php
+                    $contactEmail = \App\Models\SiteSetting::get('contact_email');
+                    $contactPhone = \App\Models\SiteSetting::get('contact_phone');
+                    $contactAddress = \App\Models\SiteSetting::get('contact_address');
+                @endphp
                 <ul class="space-y-2 text-gray-300">
-                    <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-2 text-primary"></i> Örnek Mahalle, Örnek Sokak No:1, İstanbul</li>
-                    <li class="flex items-center"><i class="fas fa-phone mr-2 text-primary"></i> +90 (212) 123 45 67</li>
-                    <li class="flex items-center"><i class="fas fa-envelope mr-2 text-primary"></i> info@atakder.org.tr</li>
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mt-1 mr-2 text-primary"></i> 
+                        <span>{{ $contactAddress ?: 'Örnek Mahalle, Örnek Sokak No:1, İstanbul' }}</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone mr-2 text-primary"></i> 
+                        <span>{{ $contactPhone ?: '+90 (212) 123 45 67' }}</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2 text-primary"></i> 
+                        <span>{{ $contactEmail ?: 'info@atakder.org.tr' }}</span>
+                    </li>
                 </ul>
             </div>
             
