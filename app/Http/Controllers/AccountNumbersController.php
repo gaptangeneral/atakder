@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\AccountNumber;
 
 class AccountNumbersController extends Controller
 {
     public function index()
     {
-        return view('account-numbers');
+        $accountNumbers = AccountNumber::orderBy('order')->get();
+        return view('account-numbers', compact('accountNumbers')); // Düzeltilmiş view adı
     }
 }

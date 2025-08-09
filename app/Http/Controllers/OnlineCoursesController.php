@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\OnlineCourse;
 
 class OnlineCoursesController extends Controller
 {
     public function index()
     {
-        return view('online-courses');
+        $onlineCourses = OnlineCourse::where('is_active', true)->orderBy('created_at', 'desc')->get();
+        return view('online-courses', compact('onlineCourses'));
     }
 }

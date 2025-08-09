@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Emergency extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'description',
+        'content',
         'image',
+        'phone',
+        'email',
+        'address',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 }

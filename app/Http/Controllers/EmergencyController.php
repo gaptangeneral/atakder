@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Emergency;
 
 class EmergencyController extends Controller
 {
     public function index()
     {
-        return view('emergency');
+        $emergency = Emergency::where('is_active', true)->first();
+        return view('emergency', compact('emergency'));
     }
 }
