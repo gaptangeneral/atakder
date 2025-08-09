@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Auth; // Eksik use satırı eklendi
 
 // Ana site rotaları
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\AboutController as AdminAboutController;
+
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\GalleryController;
@@ -17,14 +18,18 @@ use App\Http\Controllers\SearchRescueController;
 use App\Http\Controllers\OnlineCoursesController;
 use App\Http\Controllers\AccountNumbersController;
 use App\Http\Controllers\KvkkController;
+use App\Http\Controllers\AboutController as FrontAboutController;
+
+
+
+
 
 // Ana Site Rotaları
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/hakkimizda', [AboutController::class, 'index'])->name('about');
+Route::get('/hakkimizda', [FrontAboutController::class, 'index'])->name('about');
 Route::get('/iletisim', [ContactController::class, 'index'])->name('contact');
 Route::post('/iletisim', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/projelerimiz', [ProjectsController::class, 'index'])->name('projects');
-Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery');
+Route::get('/projelerimiz', [App\Http\Controllers\ProjectsController::class, 'index'])->name('projects');Route::get('/galeri', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/sss', [FaqController::class, 'index'])->name('faq');
 Route::get('/bagis-yap', [DonationController::class, 'index'])->name('donation');
 Route::post('/bagis-yap', [DonationController::class, 'store'])->name('donation.store');
@@ -64,6 +69,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('announcements/{announcement}', [App\Http\Controllers\Admin\AnnouncementController::class, 'update'])->name('announcements.update');
     Route::delete('announcements/{announcement}', [App\Http\Controllers\Admin\AnnouncementController::class, 'destroy'])->name('announcements.destroy');
     Route::post('announcements/order', [App\Http\Controllers\Admin\AnnouncementController::class, 'updateOrder'])->name('announcements.updateOrder');
+
+    // About Management
+    Route::get('about', [AdminAboutController::class, 'index'])->name('about.index');
+    Route::get('about/edit', [AdminAboutController::class, 'edit'])->name('about.edit');
+    Route::put('about', [AdminAboutController::class, 'update'])->name('about.update');
+
+
+    // Account Numbers Management
+    Route::resource('account-numbers', \App\Http\Controllers\Admin\AccountNumberController::class)->except(['show']);
+
+     // Projects Management
+    Route::get('projects', [App\Http\Controllers\Admin\ProjectController::class, 'index'])->name('projects.index');
+    Route::get('projects/create', [App\Http\Controllers\Admin\ProjectController::class, 'create'])->name('projects.create');
+    Route::post('projects', [App\Http\Controllers\Admin\ProjectController::class, 'store'])->name('projects.store');
+    Route::get('projects/{id}/edit', [App\Http\Controllers\Admin\ProjectController::class, 'edit'])->name('projects.edit');
+    Route::put('projects/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'update'])->name('projects.update');
+    Route::delete('projects/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::resource('emergency', \App\Http\Controllers\Admin\EmergencyController::class)->except(['show']);
+    Route::resource('search-rescue', \App\Http\Controllers\Admin\SearchRescueController::class)->except(['show']);
+    Route::resource('online-courses', \App\Http\Controllers\Admin\OnlineCourseController::class)->except(['show']);
 });
 
 // Laravel default auth routes
