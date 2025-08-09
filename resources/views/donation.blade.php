@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title', 'Bağış Yap - Atakder')
-
 @section('content')
     <!-- Hero Section -->
     <section class="relative h-96 flex items-center justify-center">
@@ -87,44 +85,22 @@
                     </p>
                     
                     <div class="space-y-4">
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <h4 class="font-medium">İş Bankası</h4>
-                                    <p class="text-sm text-gray-500">Hesap Sahibi: Atakder Derneği</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-mono text-sm">TR12 0001 2345 6789 0123 4567 89</p>
-                                    <p class="text-xs text-gray-500">IBAN</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <h4 class="font-medium">Ziraat Bankası</h4>
-                                    <p class="text-sm text-gray-500">Hesap Sahibi: Atakder Derneği</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-mono text-sm">TR34 0006 7010 0000 1234 5678 90</p>
-                                    <p class="text-xs text-gray-500">IBAN</p>
+                        @forelse ($accountNumbers as $accountNumber)
+                            <div class="bg-white rounded-lg p-4 border border-gray-200">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium">{{ $accountNumber->bank_name }}</h4>
+                                        <p class="text-sm text-gray-500">Hesap Sahibi: {{ $accountNumber->account_holder }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-mono text-sm">{{ $accountNumber->iban }}</p>
+                                        <p class="text-xs text-gray-500">IBAN</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <h4 class="font-medium">Garanti BBVA</h4>
-                                    <p class="text-sm text-gray-500">Hesap Sahibi: Atakder Derneği</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-mono text-sm">TR56 0006 2001 2345 6789 0123 45</p>
-                                    <p class="text-xs text-gray-500">IBAN</p>
-                                </div>
-                            </div>
-                        </div>
+                        @empty
+                            <p class="text-center py-4">Henüz hesap numarası eklenmemiş.</p>
+                        @endforelse
                     </div>
                     
                     <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
@@ -137,7 +113,6 @@
         </div>
     </section>
 @endsection
-
 @section('scripts')
     <script>
         // Mobil menü fonksiyonları

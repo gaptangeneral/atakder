@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title', 'Hesap Numaraları - Atakder')
-
 @section('content')
     <!-- Hero Section -->
     <section class="relative h-96 flex items-center justify-center">
@@ -28,38 +26,20 @@
                 <div class="bg-gray-50 rounded-lg p-6 mb-8">
                     <h3 class="text-xl font-bold mb-4 text-secondary">Banka Hesap Bilgileri</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b pb-3">
-                            <div>
-                                <h4 class="font-medium">İş Bankası</h4>
-                                <p class="text-gray-600">Hesap Sahibi: Atakder Derneği</p>
+                        @forelse ($accountNumbers as $accountNumber)
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <div>
+                                    <h4 class="font-medium">{{ $accountNumber->bank_name }}</h4>
+                                    <p class="text-gray-600">Hesap Sahibi: {{ $accountNumber->account_holder }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-mono text-lg">{{ $accountNumber->iban }}</p>
+                                    <p class="text-sm text-gray-500">IBAN</p>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <p class="font-mono text-lg">TR12 0001 2345 6789 0123 4567 89</p>
-                                <p class="text-sm text-gray-500">IBAN</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-between items-center border-b pb-3">
-                            <div>
-                                <h4 class="font-medium">Ziraat Bankası</h4>
-                                <p class="text-gray-600">Hesap Sahibi: Atakder Derneği</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-mono text-lg">TR34 0006 7010 0000 1234 5678 90</p>
-                                <p class="text-sm text-gray-500">IBAN</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4 class="font-medium">Garanti BBVA</h4>
-                                <p class="text-gray-600">Hesap Sahibi: Atakder Derneği</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-mono text-lg">TR56 0006 2001 2345 6789 0123 45</p>
-                                <p class="text-sm text-gray-500">IBAN</p>
-                            </div>
-                        </div>
+                        @empty
+                            <p class="text-center py-4">Henüz hesap numarası eklenmemiş.</p>
+                        @endforelse
                     </div>
                 </div>
                 
@@ -76,7 +56,6 @@
         </div>
     </section>
 @endsection
-
 @section('scripts')
     <script>
         // Mobil menü fonksiyonları

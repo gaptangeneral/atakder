@@ -15,9 +15,6 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Özel CSS -->
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body class="bg-gray-100">
     <div class="flex min-h-screen">
@@ -34,7 +31,6 @@
                 <a href="{{ route('admin.settings.index') }}" class="block px-4 py-2 hover:bg-gray-700 {{ request()->is('admin/settings*') ? 'bg-gray-700' : '' }}">
                     <i class="fas fa-cog mr-2"></i> Ayarlar
                 </a>
-                <!-- Diğer menü öğeleri -->
             </nav>
         </div>
         
@@ -58,6 +54,29 @@
             
             <!-- Page Content -->
             <main class="flex-1 p-6">
+                <!-- Success/Error Messages -->
+                @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        <ul class="list-disc pl-5">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Galeri Resmi Düzenle</h2>
                     <a href="{{ route('admin.gallery.index') }}" class="text-gray-600 hover:text-gray-900">
@@ -71,31 +90,59 @@
                         @method('PUT')
                         
                         <div class="mb-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Başlık</label>
-                            <input type="text" id="title" name="title" value="{{ $gallery->title }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Başlık *</label>
+                            <input type="text" id="title" name="title" value="{{ old('title', $gallery->title) }}" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('title') border-red-500 @enderror" 
+                                   required>
+                            @error('title')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         
                         <div class="mb-4">
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Resim</label>
-                            <div class="flex items-center space-x-4">
-                                <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="h-32 w-32 object-cover rounded">
-                                <div>
-                                    <input type="file" id="image" name="image" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" accept="image/*">
-                                    <p class="mt-1 text-sm text-gray-500">JPEG, PNG, JPG veya GIF formatında, maksimum 2MB.</p>
+                            
+                            <!-- Current Image -->
+                            @if($gallery->image_path && Storage::disk('public')->exists($gallery->image_path))
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-600 mb-2">Mevcut Resim:</p>
+                                    <img src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}" class="h-32 w-32 object-cover rounded border">
                                 </div>
-                            </div>
+                            @else
+                                <div class="mb-4">
+                                    <p class="text-sm text-red-600 mb-2">Mevcut resim bulunamadı: {{ $gallery->image_path }}</p>
+                                </div>
+                            @endif
+                            
+                            <input type="file" id="image" name="image" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('image') border-red-500 @enderror" 
+                                   accept="image/jpeg,image/png,image/jpg,image/gif">
+                            <p class="mt-1 text-sm text-gray-500">JPEG, PNG, JPG veya GIF formatında, maksimum 2MB. Değiştirmek istemiyorsanız boş bırakın.</p>
+                            @error('image')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- New Image Preview -->
+                        <div id="image-preview" class="mb-4 hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Yeni Resim Önizlemesi</label>
+                            <img id="preview-img" src="" alt="Önizleme" class="h-32 w-32 object-cover rounded border">
                         </div>
                         
                         <div class="mb-4">
                             <div class="flex items-center">
-                                <input id="show_on_homepage" name="show_on_homepage" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" {{ $gallery->show_on_homepage ? 'checked' : '' }}>
+                                <input id="show_on_homepage" name="show_on_homepage" type="checkbox" value="1" 
+                                       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                       {{ old('show_on_homepage', $gallery->show_on_homepage) ? 'checked' : '' }}>
                                 <label for="show_on_homepage" class="ml-2 block text-sm text-gray-900">Anasayfada göster</label>
                             </div>
                         </div>
                         
                         <div class="mb-4">
                             <label for="order" class="block text-sm font-medium text-gray-700 mb-2">Sıra</label>
-                            <input type="number" id="order" name="order" value="{{ $gallery->order }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" min="0">
+                            <input type="number" id="order" name="order" value="{{ old('order', $gallery->order) }}" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                   min="0">
                         </div>
                         
                         <div class="flex justify-end">
@@ -111,5 +158,27 @@
             </main>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('image');
+        const previewDiv = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewDiv.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewDiv.classList.add('hidden');
+            }
+        });
+    });
+    </script>
 </body>
 </html>
